@@ -1,0 +1,6 @@
+# Ignora configurações do PyCharm
+.idea/
+*.iml
+
+# Ignora ambientes virtuais
+.venv/
