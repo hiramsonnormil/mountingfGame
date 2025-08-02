@@ -4,22 +4,26 @@ import pygame
 from pygame import Surface, Rect, font
 import pygame.image
 
-from code.Const import WIN_WIDTH
+from code.Const import WIN_WIDTH ,COLOR_ORANGE ,MENU_OPTION , COLOR_WHITE
 
 
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.surf = pygame.image.load('../asset/MenuBg.png')
+        self.surf = pygame.image.load('./asset/MenuBg.png')
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def run(self):
-        pygame.mixer.music.load('../asset/ai-meu-cuzin.mp3')
+        pygame.mixer.music.load('./asset/ai-meu-cuzin.mp3')
         pygame.mixer.music.play(-1)
 
         while True:
             self.window.blit(self.surf, self.rect)
-            self.menu_text(50, "Mounting", (255, 128, 0), (WIN_WIDTH / 2, 70))
+            self.menu_text(50, "Mounting", (COLOR_ORANGE), (WIN_WIDTH / 2, 70))
+            self.menu_text(50, "Shooter", (COLOR_ORANGE), (WIN_WIDTH / 2, 120))
+
+            for i in range(len(MENU_OPTION)):
+                self.menu_text(20,MENU_OPTION[i],COLOR_WHITE, (WIN_WIDTH / 2 , 200 + 25 * i))
             pygame.display.flip()
 
             for event in pygame.event.get():
