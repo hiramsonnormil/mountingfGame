@@ -4,7 +4,7 @@ import pygame
 from pygame import Surface, Rect, font
 import pygame.image
 
-from code.Const import WIN_WIDTH ,COLOR_ORANGE ,MENU_OPTION , COLOR_WHITE
+from code.Const import WIN_WIDTH ,COLOR_ORANGE ,MENU_OPTION , COLOR_WHITE,  COLOR_RED
 
 
 class Menu:
@@ -14,23 +14,34 @@ class Menu:
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def run(self):
-        pygame.mixer.music.load('./asset/ai-meu-cuzin.mp3')
+        pygame.mixer.music.load('./asset/lula.mp3')
         pygame.mixer.music.play(-1)
-
+        selected_index = 0
+         
+         # Desenhar as imagens
         while True:
             self.window.blit(self.surf, self.rect)
-            self.menu_text(50, "Mounting", (COLOR_ORANGE), (WIN_WIDTH / 2, 70))
-            self.menu_text(50, "Shooter", (COLOR_ORANGE), (WIN_WIDTH / 2, 120))
+            self.menu_text(50, "Mounting", COLOR_ORANGE, (WIN_WIDTH / 2, 70))
+            self.menu_text(50, "Shooter", COLOR_ORANGE, (WIN_WIDTH / 2, 120))
 
             for i in range(len(MENU_OPTION)):
-                self.menu_text(20,MENU_OPTION[i],COLOR_WHITE, (WIN_WIDTH / 2 , 200 + 25 * i))
+                color = COLOR_RED if i == selected_index else COLOR_WHITE
+                self.menu_text(20, MENU_OPTION[i], color, (WIN_WIDTH / 2, 200 + 25 * i))
             pygame.display.flip()
-
+            
+            # verificar todos os eventos
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_DOWN:
+                        selected_index = (selected_index + 1) % len(MENU_OPTION)
+                    if event.key == pygame.K_UP:
+                        selected_index = (selected_index - 1 ) % len(MENU_OPTION)
+                    if event.key == pygame.K_RETURN:
+                        return MENU_OPTION[selected_index]
+                
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: font.Font = pygame.font.SysFont("Lucida Sans Typewriter", text_size)
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
